@@ -1,7 +1,39 @@
 // Wrap all code that interacts with the DOM in a call to jQuery to ensure that
 // the code isn't run until the browser has finished rendering all the elements
 // in the html.
+var localeSettings = {};
+dayjs.locale(localeSettings);
+
 $(function () {
+  var currentHour = dayjs().format("H");
+  function hourlyColor() {
+    $(".time-block").each(function (){
+      var blockHour = parseInt(this.id);
+      $(this).toggleClass("past", blockHour < currentHour);
+      $(this).toggleClass("present", blockHour === currentHour);
+      $(this).toggleClass("future", blockHour > currentHour);
+  });
+}
+function textEntry() {
+  $(".saveBtn").on("click", function (){
+    var key = $(this).parent().attr("id");
+    var value = $(this).siblings("description").val();
+    localStorage.setItem(key, value);
+  });
+}
+function refreshColor() {
+  $(".time-block").each(function (){
+    var blockHour = parseInt(this.id);
+    if (blockHour = currentHour){
+      $(this).removeClass("past future").addClass("present");
+    } else if (blockHour < currentHour) {
+      $(this).removeClass("present future").addClass("past");
+    } else {
+        $(this).removeClass("past present").addClass("future");
+      }
+  });
+}
+$(".time-block").each(function)
   // TODO: Add a listener for click events on the save button. This code should
   // use the id in the containing time-block as a key to save the user input in
   // local storage. HINT: What does `this` reference in the click listener
@@ -20,4 +52,5 @@ $(function () {
   // attribute of each time-block be used to do this?
   //
   // TODO: Add code to display the current date in the header of the page.
+
 });

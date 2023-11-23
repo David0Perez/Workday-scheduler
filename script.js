@@ -33,7 +33,14 @@ function refreshColor() {
       }
   });
 }
-$(".time-block").each(function)
+$(".time-block").each(function() {
+  var key = $(this).attr("id");
+  var value = localStorage.getItem(key);
+  $(this).children(".despcription").val(value);
+});
+
+function updateTime() {
+  var dateElement = $("#date");
   // TODO: Add a listener for click events on the save button. This code should
   // use the id in the containing time-block as a key to save the user input in
   // local storage. HINT: What does `this` reference in the click listener
